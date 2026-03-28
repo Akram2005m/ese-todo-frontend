@@ -1,16 +1,92 @@
-# React + Vite
+# ESE Todo Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based frontend for a Todo application, built with Vite and connected to a Django REST API backend.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Frontend (local): Run via GitHub Codespaces
+- Backend API: https://ese-todo-backend.onrender.com/api
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 18
+- Vite
+- JWT authentication (stored in localStorage)
+- Deployed via GitHub Codespaces (development)
 
-## Expanding the ESLint configuration
+## Architecture
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+This is the presentation layer in a three-layer enterprise architecture:
+```
+React Frontend (this repo) → Django REST API → PostgreSQL Database
+```
+
+The frontend communicates only with the REST API. It never accesses the database directly.
+
+## Project Structure
+```
+ese-todo-frontend/
+├── src/
+│   ├── components/    # Reusable UI components
+│   ├── pages/         # Page-level components (Login, Register, Todos)
+│   └── main.jsx       # App entry point
+├── public/
+├── index.html
+└── vite.config.js
+```
+
+## Features
+
+- User registration and login
+- JWT-based authentication with token refresh
+- Create, read, update, and delete todos
+- Todo attributes: title, description, priority (low/medium/high), due date
+- User-specific todos (each user sees only their own)
+
+## Local Setup
+
+### Prerequisites
+- Node.js 18+
+- npm
+
+### Steps
+
+1. Clone the repository
+```bash
+git clone https://github.com/Akram2005m/ese-todo-frontend
+cd ese-todo-frontend
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Create a `.env` file
+```
+VITE_API_URL=https://ese-todo-backend.onrender.com/api
+```
+
+4. Start the development server
+```bash
+npm run dev
+```
+
+App available at: http://localhost:5173
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| VITE_API_URL | Base URL of the Django REST API |
+
+## Security
+
+- JWT access and refresh tokens used for authentication
+- Tokens stored in localStorage
+- All API requests to protected endpoints include Authorization header
+- Users can only view and manage their own todos
+
+## AI Usage
+
+Claude (Anthropic) was used to assist with debugging CORS issues, fixing environment variable configuration, and troubleshooting Vite dev server setup. All code was reviewed, understood, and integrated manually.
